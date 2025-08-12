@@ -8,6 +8,14 @@ def get_usernames():
         l = json.load(f)
         return set(x["username"] for x in l)
 
+def write_new_user(user_data: tuple[str, str, int]):
+    with open("users.json", "r", encoding="utf-8") as f:
+        data: list = json.load(f)
+    username, fullname, age = user_data
+    data.append({"username": username, "fullname": fullname, "age": age})
+    with open("users.json", "w", encoding="utf-8") as f:
+        json.dump(data, f)
+
 @app.post("/users")
 async def create_user(request: Request):
     user_data = await request.json()
@@ -23,6 +31,9 @@ async def create_user(request: Request):
     usernames = get_usernames()
     if username in usernames:
         return {"error": "Username is taken"}
+    write_new_user((username, fullname, age))
+    return {"username": username, "fullname": fullname, "age": age}
+    
 
     
     
