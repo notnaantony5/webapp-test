@@ -28,3 +28,7 @@ async def create_post(post_data: CreatePostSchema) -> PostSchema:
     WHERE title = ?""", (post_data.title,))
     id_, title, content, created_at = cur.fetchone()
     return PostSchema(id=id_, title=title, content=content, created_at=datetime.fromisoformat(created_at)) 
+
+@app.get("/posts")
+async def get_posts() -> list[PostSchema]:
+    return [PostSchema(id=1,title="1", content="1", created_at=datetime.now())]
