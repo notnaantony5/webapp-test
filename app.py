@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from datetime import datetime
+from sqlite3 import connect
 
 class CreatePostSchema(BaseModel):
     title: str
@@ -8,12 +9,16 @@ class CreatePostSchema(BaseModel):
 
 class PostSchema(CreatePostSchema):
     id: int
-    create_at: datetime
+    created_at: datetime
 
 app = FastAPI()
 
 @app.post("/posts")
 async def create_post(post_data: CreatePostSchema) -> PostSchema:
-    now = datetime.now()
-    id_ = 1
-    return PostSchema(**post_data.model_dump(), create_at=now, id=id_)
+    conn = connect("test.sqlite3")
+    cur = conn.cursor()
+    cur.execute("""INSERT INTO posts (title, content, created_at)
+    VALUES (?, ?, ?)
+    """, (post_data.title, post_data.content, datetime.now().isoformat()))
+    conn.commit()
+    return PostSchema(**post_data.model_dump(), created_at=datetime.now(), id=1)
