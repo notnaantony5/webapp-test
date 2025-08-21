@@ -21,3 +21,7 @@ def func2() -> None:
 func(1)
 # 2 запуск
 func(1)
+
+func2()
+func2()
+func2()
