@@ -16,3 +16,9 @@ def func2() -> None:
 
 print(func(4))
 func2()
+
+# Задание
+# 1 запуск
+func()
+# 2 запуск
+func()
