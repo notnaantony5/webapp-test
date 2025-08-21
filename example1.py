@@ -1,9 +1,11 @@
 
 def print_text(f: callable):
+    counter = [1]
     def wrapper(*args, **kwargs):
-        print("start")
+        c = counter
+        print(f"{c[0]} запуск")
         result = f(*args, **kwargs)
-        print("stop")
+        c[0] += 1
         return result
     return wrapper
 
@@ -14,11 +16,8 @@ def func(a: int) -> int:
 def func2() -> None:
     print("run")
 
-print(func(4))
-func2()
-
 # Задание
 # 1 запуск
-func()
+func(1)
 # 2 запуск
-func()
+func(1)
