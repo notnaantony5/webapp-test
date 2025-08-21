@@ -20,7 +20,20 @@ class Student:
     def increase_count(cls):
         cls.students_count += 1
 
+class Employee:
+    def __init__(self, name) -> None:
+        self.name = name
+
+
+
 student = Student("Sasha")
 print(student.get_name())
 student2 = Student("Sasha")
 print(Student.get_count())
+
+
+
+
+# Задание
+emp = Employee.from_student(student)
+print(emp.name) # Sasha
